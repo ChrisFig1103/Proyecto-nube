@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+ <meta charset="utf-8"/>
+ <meta name="description" content=""/>
+ <meta name="author" content=""/>
+ <meta name="keywords" content=""/>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+ <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name = "viewport" content = "width = device-width, initial-scale = 1"/>
+	
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous"/>
+ <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+</head>
+<body>
+    
+ <script type='text/javascript'>
+ 
+    $(document).ready(function() {
+    	const webcamElement = document.getElementById('webcam');
+    	const canvasElement = document.getElementById('canvas');
+    	const snapSoundElement = document.getElementById('snapSound');
+    	const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+		webcam.start()
+   	   .then(result =>{
+   	      console.log("webcam started");
+   	   })
+   	   .catch(err => {
+   	       console.log(err);
+   	   });	 
+    	$( "#btn_tomar_foto" ).click(function() { 
+    		var picture = webcam.snap();
+    		$.post( "https://TU_API/test",JSON.stringify({imgvalidacion:picture}), function( respuesta ) {
+    			if(respuesta.body.codigo==0){
+					alert("Usted es :"+ respuesta.body.similutud);
+    		      }else{        
+  					alert("Error :"+ respuesta.body.descripcion);
+                }
+    		});
+     }); 
+    	
+    	
+    });
+
+ </script>
+ 
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"></a>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+  
+    <main class="col-md-12">
+     
+      <form>
+          
+         <div class="col-12 mb-md-2">
+            <button type="button" class="btn btn-primary mx-md-2 mb-1 mt-2" id="btn_tomar_foto">Validar Persona</button>  
+         </div>
+        
+        <div class="row g-3">
+         
+            <div class="col-md-12">
+				<video id="webcam"  width="300" height="300"></video>
+				<canvas id="canvas" class="d-none"></canvas>
+				<audio id="snapSound" src="audio/snap.wav" preload = "auto"></audio>				  
+            </div>
+          </div>
+        </form>
+    </main>
+  </div>
+</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>

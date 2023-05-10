@@ -1,0 +1,12 @@
+// crear su bucket
+
+// comando para crear la conexion a la coleccion de rostros
+    // CREACION DE COLECCIONES
+    /*   
+aws rekognition create-collection --collection-id "coleccion2anlusoft"
+
+asignar las imagenes a la coleccion:
+
+aws rekognition index-faces --image "{\"S3Object\":{\"Bucket\":\"bucket04022023\",\"Name\":\"angie.jpeg\"}}" --collection-id "coleccion2anlusoft" --max-faces 1 --quality-filter "AUTO" --detection-attributes "ALL" --external-image-id "rosa"
+
+NOTA las imagenes debes subir al  bucket en la raiz 
